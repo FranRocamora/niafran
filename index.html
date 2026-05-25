@@ -1,3 +1,6 @@
+# Código completo actualizado (`index.html`)
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,7 +29,6 @@
       overflow: hidden;
     }
 
-    /* ── BACKGROUND ── */
     .bg {
       position: fixed; inset: 0;
       background:
@@ -36,7 +38,6 @@
       z-index: 0;
     }
 
-    /* tiny grain overlay */
     .bg::after {
       content: '';
       position: fixed; inset: 0;
@@ -45,7 +46,6 @@
       pointer-events: none;
     }
 
-    /* ── PETALS ── */
     .petal {
       position: fixed;
       width: 6px; height: 10px;
@@ -55,6 +55,7 @@
       pointer-events: none;
       z-index: 1;
     }
+
     @keyframes fall {
       0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
       10%  { opacity: 1; }
@@ -62,20 +63,19 @@
       100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
 
-    /* ── SCREENS ── */
     .screen {
       position: fixed; inset: 0;
       display: flex; align-items: center; justify-content: center;
       z-index: 10;
       transition: opacity 0.9s ease, transform 0.9s ease;
     }
+
     .screen.hidden {
       opacity: 0;
       pointer-events: none;
       transform: translateY(30px);
     }
 
-    /* ── CARD ── */
     .card {
       position: relative;
       width: min(680px, 94vw);
@@ -90,7 +90,6 @@
         inset 0 1px 0 rgba(255,255,255,0.6);
     }
 
-    /* corner ornaments */
     .card::before, .card::after,
     .card .corner-br, .card .corner-bl {
       content: '';
@@ -100,12 +99,12 @@
       border-style: solid;
       opacity: 0.55;
     }
-    .card::before  { top: 14px; left: 14px;  border-width: 1px 0 0 1px; }
+
+    .card::before  { top: 14px; left: 14px; border-width: 1px 0 0 1px; }
     .card::after   { top: 14px; right: 14px; border-width: 1px 1px 0 0; }
     .card .corner-br { bottom: 14px; right: 14px; border-width: 0 1px 1px 0; }
-    .card .corner-bl { bottom: 14px; left: 14px;  border-width: 0 0 1px 1px; }
+    .card .corner-bl { bottom: 14px; left: 14px; border-width: 0 0 1px 1px; }
 
-    /* ── TYPOGRAPHY ── */
     .eyebrow {
       font-family: 'Cinzel', serif;
       font-size: 0.62rem;
@@ -122,6 +121,7 @@
       font-size: 0.75rem;
       opacity: 0.7;
     }
+
     .divider::before, .divider::after {
       content: '';
       flex: 1;
@@ -139,21 +139,6 @@
       margin-bottom: 6px;
     }
 
-    .question-mark {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 5rem;
-      font-weight: 300;
-      color: var(--burgundy);
-      line-height: 1;
-      margin: 18px 0;
-      opacity: 0.85;
-      animation: pulse 3s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1);   opacity: 0.85; }
-      50%       { transform: scale(1.06); opacity: 1; }
-    }
-
     .teaser {
       font-family: 'EB Garamond', serif;
       font-size: 1.05rem;
@@ -164,7 +149,6 @@
       opacity: 0.8;
     }
 
-    /* ── BUTTON ── */
     .btn {
       font-family: 'Cinzel', serif;
       font-size: 0.7rem;
@@ -179,16 +163,11 @@
       transition: background-position 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease;
       box-shadow: 0 4px 20px rgba(184,150,106,0.3);
     }
+
     .btn:hover {
       background-position: 100% 0;
       box-shadow: 0 6px 28px rgba(184,150,106,0.5);
       transform: translateY(-1px);
-    }
-    .btn:active { transform: translateY(0); }
-
-    /* ── MENU SCREEN ── */
-    .menu-header {
-      margin-bottom: 28px;
     }
 
     .restaurant-name {
@@ -198,14 +177,6 @@
       letter-spacing: 0.2em;
       color: var(--gold-dark);
       margin-bottom: 4px;
-    }
-
-    .menu-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      font-weight: 300;
-      font-style: italic;
-      color: var(--ink);
     }
 
     .dish-section {
@@ -242,9 +213,7 @@
       opacity: 0.8;
       line-height: 1.8;
     }
-    .ing-item {
-      display: inline;
-    }
+
     .ing-item:not(:last-child)::after {
       content: ' · ';
       color: var(--gold);
@@ -252,18 +221,9 @@
       margin: 0 2px;
     }
 
-    /* ── LOVE SCREEN ── */
     .love-icon {
       font-size: 2.2rem;
       margin-bottom: 12px;
-      animation: heartbeat 1.8s ease-in-out infinite;
-    }
-    @keyframes heartbeat {
-      0%, 100% { transform: scale(1); }
-      14%       { transform: scale(1.18); }
-      28%       { transform: scale(1); }
-      42%       { transform: scale(1.1); }
-      56%       { transform: scale(1); }
     }
 
     .notice-tag {
@@ -306,10 +266,16 @@
       margin-top: 10px;
     }
 
-    /* ── RESPONSIVE ── */
+    .final-photo {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 18px;
+      margin-top: 20px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+    }
+
     @media (max-width: 500px) {
       .card { padding: 40px 28px 36px; }
-      .question-mark { font-size: 4rem; }
       .dish-name { font-size: 1.3rem; }
     }
   </style>
@@ -318,7 +284,7 @@
 
 <div class="bg"></div>
 
-<!-- Screen 1: Surprise -->
+<!-- Screen 1 -->
 <div class="screen" id="screen1">
   <div class="card">
     <div class="corner-br"></div>
@@ -330,7 +296,7 @@
 
     <h1 class="surprise-title">Bienvenida a Niafran.</h1>
 
-    <p class="teaser">He preparado algo con mucho cariño para ti.
+    <p class="teaser">He preparado algo con mucho cariño para ti.</p>
 
     <div class="divider">✦</div>
 
@@ -338,22 +304,20 @@
   </div>
 </div>
 
-<!-- Screen 2: Menu -->
+<!-- Screen 2 -->
 <div class="screen hidden" id="screen2">
   <div class="card">
     <div class="corner-br"></div>
     <div class="corner-bl"></div>
 
-    <div class="menu-header">
-      <p class="restaurant-name">Menú del Chef</p>
-      <div class="divider">✦</div>
-      <p class="eyebrow">Noche especial · Para ti</p>
-    </div>
+    <p class="restaurant-name">Menú del Chef</p>
+
+    <div class="divider">✦</div>
 
     <div class="dish-section">
       <p class="dish-category">Plato Principal</p>
       <h2 class="dish-name">Poke Bowl</h2>
-      <div class="divider">·</div>
+
       <div class="ingredients-list">
         <span class="ing-item">Arroz japonés</span>
         <span class="ing-item">Atún</span>
@@ -372,7 +336,7 @@
   </div>
 </div>
 
-<!-- Screen 3: Love message -->
+<!-- Screen 3 -->
 <div class="screen hidden" id="screen3">
   <div class="card">
     <div class="corner-br"></div>
@@ -385,7 +349,8 @@
     <div class="divider">·</div>
 
     <p style="font-family:'Cormorant Garamond',serif; font-size:0.95rem; font-style:italic; color:var(--burgundy); opacity:0.8; letter-spacing:0.03em; margin-bottom:10px;">
-      El postre no estará disponible<br>hasta finales de julio.
+      El postre no estará disponible<br>
+      hasta finales de julio.
     </p>
 
     <div class="divider">✦</div>
@@ -404,11 +369,37 @@
     <div class="divider">·</div>
 
     <p class="signature">Te amo muchísimo. 🤍</p>
+
+    <div style="margin-top:28px;">
+      <button class="btn" onclick="goToFinal()">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 4 -->
+<div class="screen hidden" id="screen4">
+  <div class="card">
+    <div class="corner-br"></div>
+    <div class="corner-bl"></div>
+
+    <p class="eyebrow">Para ti 🤍</p>
+
+    <div class="divider">✦</div>
+
+    <h1 class="surprise-title">Feliz mes cochi ❤️</h1>
+
+    <p class="love-sub">
+      Gracias por todos los momentos bonitos contigo.<br>
+      Te amo muchísimo.
+    </p>
+
+    <div class="divider">✦</div>
+
+    <img src="foto.jpg" alt="Nosotros" class="final-photo">
   </div>
 </div>
 
 <script>
-  // Generate petals
   for (let i = 0; i < 18; i++) {
     const p = document.createElement('div');
     p.className = 'petal';
@@ -423,15 +414,27 @@
 
   function transition(fromId, toId) {
     const from = document.getElementById(fromId);
-    const to   = document.getElementById(toId);
+    const to = document.getElementById(toId);
+
     from.classList.add('hidden');
+
     setTimeout(() => {
       to.classList.remove('hidden');
     }, 500);
   }
 
-  function goToMenu() { transition('screen1', 'screen2'); }
-  function goToLove()  { transition('screen2', 'screen3'); }
+  function goToMenu() {
+    transition('screen1', 'screen2');
+  }
+
+  function goToLove() {
+    transition('screen2', 'screen3');
+  }
+
+  function goToFinal() {
+    transition('screen3', 'screen4');
+  }
 </script>
+
 </body>
 </html>
