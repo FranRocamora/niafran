@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Una Noche Especial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Cinzel:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f8f2e9;
+      --parchment: #f0e8d8;
+      --gold: #b8966a;
+      --gold-light: #d4b48a;
+      --gold-dark: #8a6d45;
+      --burgundy: #5c2a35;
+      --ink: #1e1410;
+      --ink-soft: #3a2820;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'EB Garamond', serif;
+      background-color: var(--ink);
+      overflow: hidden;
+    }
+
+    /* ── BACKGROUND ── */
+    .bg {
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(184,150,106,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(92,42,53,0.15) 0%, transparent 60%),
+        linear-gradient(160deg, #1a1008 0%, #0e0906 50%, #150d0a 100%);
+      z-index: 0;
+    }
+
+    /* tiny grain overlay */
+    .bg::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* ── PETALS ── */
+    .petal {
+      position: fixed;
+      width: 6px; height: 10px;
+      border-radius: 50% 0 50% 0;
+      background: linear-gradient(135deg, rgba(184,150,106,0.25), rgba(92,42,53,0.2));
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── SCREENS ── */
+    .screen {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10;
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(30px);
+    }
+
+    /* ── CARD ── */
+    .card {
+      position: relative;
+      width: min(680px, 94vw);
+      background: linear-gradient(170deg, #faf5ec 0%, #f3eadb 60%, #ede0cc 100%);
+      border: 1px solid var(--gold-light);
+      padding: 56px 56px 48px;
+      text-align: center;
+      box-shadow:
+        0 0 0 6px rgba(184,150,106,0.08),
+        0 0 0 7px rgba(184,150,106,0.25),
+        0 30px 80px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    /* corner ornaments */
+    .card::before, .card::after,
+    .card .corner-br, .card .corner-bl {
+      content: '';
+      position: absolute;
+      width: 36px; height: 36px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.55;
+    }
+    .card::before  { top: 14px; left: 14px;  border-width: 1px 0 0 1px; }
+    .card::after   { top: 14px; right: 14px; border-width: 1px 1px 0 0; }
+    .card .corner-br { bottom: 14px; right: 14px; border-width: 0 1px 1px 0; }
+    .card .corner-bl { bottom: 14px; left: 14px;  border-width: 0 0 1px 1px; }
+
+    /* ── TYPOGRAPHY ── */
+    .eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.32em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 14px auto;
+      color: var(--gold);
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-light), transparent);
+    }
+
+    .surprise-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .question-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      font-weight: 300;
+      color: var(--burgundy);
+      line-height: 1;
+      margin: 18px 0;
+      opacity: 0.85;
+      animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1);   opacity: 0.85; }
+      50%       { transform: scale(1.06); opacity: 1; }
+    }
+
+    .teaser {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--ink-soft);
+      line-height: 1.7;
+      margin: 10px 0 28px;
+      opacity: 0.8;
+    }
+
+    /* ── BUTTON ── */
+    .btn {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      color: var(--cream);
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-dark));
+      background-size: 200% 100%;
+      border: none;
+      padding: 14px 40px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background-position 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 20px rgba(184,150,106,0.3);
+    }
+    .btn:hover {
+      background-position: 100% 0;
+      box-shadow: 0 6px 28px rgba(184,150,106,0.5);
+      transform: translateY(-1px);
+    }
+    .btn:active { transform: translateY(0); }
+
+    /* ── MENU SCREEN ── */
+    .menu-header {
+      margin-bottom: 28px;
+    }
+
+    .restaurant-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      color: var(--gold-dark);
+      margin-bottom: 4px;
+    }
+
+    .menu-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink);
+    }
+
+    .dish-section {
+      margin: 24px 0;
+    }
+
+    .dish-category {
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .dish-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+    }
+
+    .ingredients-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 0;
+      font-family: 'EB Garamond', serif;
+      font-size: 0.92rem;
+      font-style: italic;
+      color: var(--ink-soft);
+      opacity: 0.8;
+      line-height: 1.8;
+    }
+    .ing-item {
+      display: inline;
+    }
+    .ing-item:not(:last-child)::after {
+      content: ' · ';
+      color: var(--gold);
+      font-style: normal;
+      margin: 0 2px;
+    }
+
+    /* ── LOVE SCREEN ── */
+    .love-icon {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+      animation: heartbeat 1.8s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14%       { transform: scale(1.18); }
+      28%       { transform: scale(1); }
+      42%       { transform: scale(1.1); }
+      56%       { transform: scale(1); }
+    }
+
+    .notice-tag {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      color: var(--burgundy);
+      border: 1px solid var(--burgundy);
+      padding: 4px 14px;
+      margin-bottom: 18px;
+      opacity: 0.75;
+    }
+
+    .love-message {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.5;
+      margin: 12px 0 8px;
+    }
+
+    .love-sub {
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      color: var(--ink-soft);
+      font-style: italic;
+      line-height: 1.8;
+      margin: 10px 0 18px;
+      opacity: 0.85;
+    }
+
+    .signature {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--gold-dark);
+      margin-top: 10px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 500px) {
+      .card { padding: 40px 28px 36px; }
+      .question-mark { font-size: 4rem; }
+      .dish-name { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<!-- Screen 1: Surprise -->
+<div class="screen" id="screen1">
+  <div class="card">
+    <div class="corner-br"></div>
+    <div class="corner-bl"></div>
+
+    <p class="eyebrow">Una Cena Especial</p>
+
+    <div class="divider">✦</div>
+
+    <h1 class="surprise-title">Bienvenida a Niafran.</h1>
+
+    <p class="teaser">He preparado algo con mucho cariño para ti.<br>¿Estás lista para descubrirlo?</p>
+
+    <div class="divider">✦</div>
+
+    <button class="btn" onclick="goToMenu()">Siguiente</button>
+  </div>
+</div>
+
+<!-- Screen 2: Menu -->
+<div class="screen hidden" id="screen2">
+  <div class="card">
+    <div class="corner-br"></div>
+    <div class="corner-bl"></div>
+
+    <div class="menu-header">
+      <p class="restaurant-name">Menú del Chef</p>
+      <div class="divider">✦</div>
+      <p class="eyebrow">Noche especial · Para ti</p>
+    </div>
+
+    <div class="dish-section">
+      <p class="dish-category">Plato Principal</p>
+      <h2 class="dish-name">Poke Bowl</h2>
+      <div class="divider">·</div>
+      <div class="ingredients-list">
+        <span class="ing-item">Arroz japonés</span>
+        <span class="ing-item">Atún</span>
+        <span class="ing-item">Camarones tempurizados</span>
+        <span class="ing-item">Aguacate</span>
+        <span class="ing-item">Piña</span>
+        <span class="ing-item">Cebollín</span>
+        <span class="ing-item">Wakame</span>
+        <span class="ing-item">Cebolla frita</span>
+      </div>
+    </div>
+
+    <div class="divider">✦</div>
+
+    <button class="btn" onclick="goToLove()">Siguiente</button>
+  </div>
+</div>
+
+<!-- Screen 3: Love message -->
+<div class="screen hidden" id="screen3">
+  <div class="card">
+    <div class="corner-br"></div>
+    <div class="corner-bl"></div>
+
+    <div class="love-icon">🌹</div>
+
+    <span class="notice-tag">Aviso del Chef</span>
+
+    <div class="divider">·</div>
+
+    <p style="font-family:'Cormorant Garamond',serif; font-size:0.95rem; font-style:italic; color:var(--burgundy); opacity:0.8; letter-spacing:0.03em; margin-bottom:10px;">
+      El postre no estará disponible<br>hasta finales de julio.
+    </p>
+
+    <div class="divider">✦</div>
+
+    <p class="love-message">
+      Espero que disfrutes muchísimo<br>esta cena, amor mío.
+    </p>
+
+    <p class="love-sub">
+      Pronto lo celebraremos juntos,<br>
+      sentados en la misma mesa,<br>
+      compartiendo cada bocado.<br>
+      Ese momento ya lo estoy esperando.
+    </p>
+
+    <div class="divider">·</div>
+
+    <p class="signature">Te amo muchísimo. 🤍</p>
+  </div>
+</div>
+
+<script>
+  // Generate petals
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 12) + 's';
+    p.style.width = (4 + Math.random() * 5) + 'px';
+    p.style.height = (7 + Math.random() * 6) + 'px';
+    p.style.opacity = 0.3 + Math.random() * 0.4;
+    document.body.appendChild(p);
+  }
+
+  function transition(fromId, toId) {
+    const from = document.getElementById(fromId);
+    const to   = document.getElementById(toId);
+    from.classList.add('hidden');
+    setTimeout(() => {
+      to.classList.remove('hidden');
+    }, 500);
+  }
+
+  function goToMenu() { transition('screen1', 'screen2'); }
+  function goToLove()  { transition('screen2', 'screen3'); }
+</script>
+</body>
+</html>
